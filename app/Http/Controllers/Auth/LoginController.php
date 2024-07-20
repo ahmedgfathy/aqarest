@@ -14,22 +14,14 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-    
+        $credentials = $request->only('username', 'password');
+
         if (Auth::attempt($credentials)) {
-            // Check if the user is a superuser
-            if (Auth::user()->is_superuser) {
-                return redirect()->route('dashboard');
-            } else {
-                return redirect()->intended('/');
-            }
+            return redirect()->intended('dashboard');
         }
-    
+
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'username' => 'The provided credentials do not match our records.',
         ]);
     }
-    
-    
-    
 }
